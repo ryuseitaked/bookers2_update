@@ -18,7 +18,36 @@
           <th><%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-sm btn-success' %></th>
           <th><%= link_to 'Destroy', book_path(@book),  class: 'btn btn-sm btn-danger', method: :delete, data: {confirm: "削除しますか？"} %></th>
         <% end %>
+        <th>
+          <%= "コメント件数: #{@book.book_comments.count}" %>
+        </th>
       </tr>
+
+      <table>
+        <tr>
+          <th>
+            <div class="comment-index">
+              <% @book.book_comments.each do |book_comment| %>
+              <%= book_comment.user.name %>
+              <%= book_comment.created_at.strftime('%Y/%m/%d') %>
+              <%= book_comment.comment %>
+              <% if book_comment.user == current_user %>
+              <th><%= link_to 'Destroy', book_book_comment_path(book_comment.id),  class: 'btn btn-sm btn-danger', method: :delete %></th>
+              <% end %>
+              <% end %>
+            </div>
+          </th>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <%= form_with(model:[@book,@book_comment], local: true) do |f| %>
+          <%= f.text_area :comment, row:'5', class: "form-control" %>
+          <%= f.submit "送信" %>
+          <% end %>
+        </tr>
+      </table>
     </tbody>
   </table>
 </div>
