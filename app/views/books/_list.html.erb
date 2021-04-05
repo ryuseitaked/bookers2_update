@@ -18,7 +18,14 @@
       </th>
       <th><%= link_to book.title, book_path(book) %></th>
       <th><%= book.body %></th>
-    </th>
+      <th>
+        <% if current_user.already_favorited(book) %>
+          <%= link_to '🤍', book_favorites_path(book), methood: :delete %>
+        <% else %>
+          <%= link_to '♡', book_favorites_path(book), methood: :post %>
+        <% end %>
+        <%= book.favorites.count %>
+      </th>
     <th>
       <p><%= "コメント件数: #{book.book_comments.count}" %></p>
     </th>
